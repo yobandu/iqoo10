@@ -3,6 +3,9 @@ pipeline {
        parameters {
   choice choices: ['dev', 'qa', 'uat ', 'prod'], description: 'pick environment value', name: 'Environment'
 }
+triggers {
+  pollSCM '* * * * *'
+}
 
     stages {
         stage ('checkout'){
