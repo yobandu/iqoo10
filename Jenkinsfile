@@ -1,23 +1,18 @@
 pipeline {
-	agent any
-	
-	stages {
-	    stage('Checkout') {
-	        steps {
-			checkout scm			       
-		      }}
-		stage('Build') {
-	           steps {
-			  sh '/home/abhishek/apache-maven-3.9.5-bin/apache-maven-3.9.5/bin/mvn install'
-	                 }}
-		stage('Deployment'){
-		    steps {
-			
-			sh 'cp target/iqoo10.war /home/abhishek/apache-tomcat-9.0.82/webapps'
-			}}
-		stage('slack notification'){
-		    steps {
-			
-	slackSend baseUrl: 'https://hooks.slack.com/services/', channel: 'slack-channel', color: 'good', message: 'Welcome To Jenkins', teamDomain: 'devops-slack', tokenCredentialId: '022a0d4a-fd06-4445-a08a-4813ec212e81'
-			}}
-			}}
+    agent any
+    
+    stages {
+        stage ('checkout'){
+            steps {
+                git "https://github.com/yobandu/iqoo10.git"
+            }}
+        stage ('build'){
+            steps {
+                sh 'mvn install'
+                }}
+        stage ('deployement'){
+            steps {
+                sh 'cp target/iqoo10.war /home/abhishek/apache-tomcat-9.0.82/webapps'
+                }}
+    }
+}
